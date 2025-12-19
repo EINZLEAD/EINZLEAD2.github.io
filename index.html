@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Love of My Life</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <h1>For the Love of My Life</h1>
+      <p class="tag">A small place to collect photos, letters and memories — made with love.</p>
+      <a class="btn" href="#gallery">See Photos</a>
+    </div>
+  </header>
+
+  <main class="container">
+    <section id="gallery" class="panel">
+      <h2>Photo Gallery</h2>
+      <p class="muted">Add photos with the button. They are stored locally in your browser.</p>
+      <div class="controls">
+        <label class="btn">Add Photo<input id="photo-input" type="file" accept="image/*" style="display:none"></label>
+        <button id="clear-photos" class="btn ghost">Clear Photos</button>
+      </div>
+      <div id="gallery-grid" class="grid"></div>
+    </section>
+
+    <section id="letters" class="panel">
+      <h2>Letters</h2>
+      <p class="muted">Write a letter, save it, and it will appear below.</p>
+      <form id="letter-form" class="letter-form">
+        <input id="letter-title" placeholder="Title (e.g., ‘A Sunday’ )" required>
+        <textarea id="letter-body" rows="6" placeholder="Write your letter..." required></textarea>
+        <div class="form-actions">
+          <button type="submit" class="btn">Save Letter</button>
+          <button id="clear-letters" type="button" class="btn ghost">Clear Letters</button>
+        </div>
+      </form>
+      <div id="letters-list" class="cards"></div>
+    </section>
+
+    <section id="appreciation" class="panel">
+      <h2>Why I Appreciate You</h2>
+      <p class="lead">You can use this area to write a heartfelt short note or list reasons you love them.</p>
+      <div class="appreciation-box" contenteditable="true" aria-label="Appreciation text">Type here to express your feelings. This text isn't saved automatically; copy it when finished.</div>
+    </section>
+  </main>
+
+  <div id="img-modal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <button id="modal-close" class="modal-close">×</button>
+      <img id="modal-img" alt="" src="">
+      <div id="modal-caption"></div>
+      <button id="delete-photo" class="btn danger">Delete Photo</button>
+    </div>
+  </div>
+
+  <footer class="site-footer">
+    <p>Made with ♥ — keep adding photos and letters to personalize this page.</p>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>
