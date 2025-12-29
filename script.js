@@ -88,6 +88,54 @@
   // initial render
   renderGallery(); renderLetters()
   
+  // === Export / Import backup (images + letters + appreciation) ===
+  ;(function(){
+    const exportBtn = document.getElementById('export-data')
+    const importInput = document.getElementById('import-file')
+    const APP_KEY = 'lovelife_appreciation_v1'
+
+    function exportData(){
+      const payload = {
+        meta: { exported: new Date().toISOString() },
+        photos: photos,
+        letters: letters,
+        appreciation: localStorage.getItem(APP_KEY) || ''
+      }
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' })
+      const a = document.createElement('a')
+      a.href = URL.createObjectURL(blob)
+      a.download = `lovelife-backup-${new Date().toISOString().slice(0,10)}.txt`
+      document.body.appendChild(a)
+      a.click()
+      a.remove()
+      setTimeout(()=> URL.revokeObjectURL(a.href), 5000)
+    }
+
+    function importFile(file){
+      const reader = new FileReader()
+      reader.onload = ()=>{
+        try{
+          const text = reader.result
+          const obj = JSON.parse(text)
+          if(!obj || typeof obj !== 'object') throw new Error('Invalid file')
+          if(!confirm('Importing will overwrite current photos, letters, and appreciation note. Continue?')) return
+          photos = Array.isArray(obj.photos) ? obj.photos : []
+          letters = Array.isArray(obj.letters) ? obj.letters : []
+          if('appreciation' in obj) localStorage.setItem(APP_KEY, obj.appreciation || '')
+          savePhotos(); saveLetters(); renderGallery(); renderLetters()
+          alert('Import complete')
+        }catch(err){
+          console.error('Import failed', err)
+          alert('Failed to import file: ' + (err && err.message ? err.message : err))
+        }
+      }
+      reader.readAsText(file)
+    }
+
+    if(exportBtn) exportBtn.addEventListener('click', exportData)
+    if(importInput) importInput.addEventListener('change', e=>{ const f = e.target.files && e.target.files[0]; if(f) importFile(f); importInput.value = '' })
+  })()
+  
 
     // === Appreciation note persistence ===
     ;(function(){
